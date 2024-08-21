@@ -1,17 +1,11 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Serializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SerializableHttps
 {
 	public class SerializableHttpsClient
 	{
-		private HttpClient _client;
+		private readonly HttpClient _client;
 
 		public SerializableHttpsClient()
 		{
@@ -47,7 +41,7 @@ namespace SerializableHttps
 			return task.Result;
 		}
 
-		public async Task<TOut> PatchAsync<TIn, TOut>(TIn input, string address) 
+		public async Task<TOut> PatchAsync<TIn, TOut>(TIn input, string address)
 			where TIn : notnull
 			where TOut : notnull
 		{

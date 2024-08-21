@@ -1,19 +1,12 @@
 ﻿using SerializableHttps.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace SerializableHttps.Serializers
 {
 	public static class BodySerialiser
 	{
-		private static JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+		private static readonly JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
 		public static async Task<T> DeserializeContentAsync<T>(HttpContent content) where T : notnull
 		{

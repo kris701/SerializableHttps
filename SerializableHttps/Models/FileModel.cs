@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace SerializableHttps.Models
 {
 	public class FileModel
 	{
-		private MemoryStream _str;
+		private readonly MemoryStream _str;
 		public MemoryStream GetFileContent() { return _str; }
 
 		[Required]
