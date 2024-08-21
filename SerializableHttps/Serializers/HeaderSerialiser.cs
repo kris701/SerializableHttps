@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using SerializableHttps.Exceptions;
+using System.Globalization;
 using System.Reflection;
 using System.Web;
 
@@ -26,12 +27,12 @@ namespace SerializableHttps.Serializers
 				}
 			}
 			else
-				throw new TargetParameterCountException("Please wrap in model before using parameters!");
+				throw new HttpSerialisationException("Please wrap in model before using parameters!");
 
 			return $"?{query}";
 		}
 
-		private static bool IsPrimitive<T>(T value)
+		private static bool IsPrimitive<T>(T value) where T : notnull
 		{
 			Type modelTypeInfo = value.GetType();
 
