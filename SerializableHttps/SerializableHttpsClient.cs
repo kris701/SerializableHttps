@@ -14,22 +14,6 @@ namespace SerializableHttps
 			set => _client.Timeout = value;
 		}
 
-		private bool _compress = false;
-		public bool Compress {
-			get => _compress;
-			set { 
-				_compress = value;
-				if (_compress)
-					_client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-				else
-				{
-					var existing = _client.DefaultRequestHeaders.AcceptEncoding.SingleOrDefault(x => x.Value == "gzip");
-					if (existing != null)
-						_client.DefaultRequestHeaders.AcceptEncoding.Remove(existing);
-				}
-			} 
-		}
-
 		public SerializableHttpsClient()
 		{
 			_client = new HttpClient();
