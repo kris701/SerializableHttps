@@ -1,6 +1,5 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Serialisers;
-using System.Net.Http.Headers;
 
 namespace SerializableHttps
 {

@@ -39,7 +39,7 @@ namespace SerializableHttps.Tests.Serialisers
 
 		public static IEnumerable<object[]> NonhuerifiableData()
 		{
-			yield return new object[] { 
+			yield return new object[] {
 				(int)352
 			};
 			yield return new object[] {
