@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="https://github.com/kris701/SerializableHttps/assets/22596587/d3f387a6-e0b5-4118-9801-c125a4e64100" width="200" height="200" />
+    <img src="https://github.com/user-attachments/assets/8ae7bc6c-2243-47dc-aec1-4660514c39b2" width="200" height="200" />
 </p>
 
 [![Build and Publish](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml)
