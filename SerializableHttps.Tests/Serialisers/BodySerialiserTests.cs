@@ -38,7 +38,7 @@ namespace SerializableHttps.Tests.Serialisers
 			};
 			yield return new object[] {
 				new XElement("name", "some value"),
-				"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<name>some value</name>"
+				$"<?xml version=\"1.0\" encoding=\"utf-8\"?>{Environment.NewLine}<name>some value</name>"
 			};
 			yield return new object[] {
 				new TestClass3(GenerateStreamFromString("file content"))
