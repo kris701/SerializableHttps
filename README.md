@@ -25,7 +25,7 @@ var input = new InputModel(){
 	Name = "something"
 };
 var client = new SerializableHttpsClient();
-var result = client.Post<InputModel,OutputModel>("https://localhost/test");
+var result = client.Post<InputModel,OutputModel>(input, "https://localhost/test");
 ```
 
 The library will then automatically serialise the input model correctly, and deserialise the response into the `OutputModel`;
@@ -41,4 +41,4 @@ The serialisation used depends on the call, i.e. if its a POST, PATCH, GET or DE
 
 For this system to work, all the input and output models must be serialisable (i.e. no `dynamic` or `object`!)
 
-You can find the project as a package on the [NuGet Package Maznager](www.link.com).
+You can find the project as a package on the [NuGet Package Manager](https://www.nuget.org/packages/SerializableHttps/).
