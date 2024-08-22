@@ -1,9 +1,10 @@
 ﻿using SerializableHttps.Exceptions;
+using SerializableHttps.Models;
 using System.Globalization;
 using System.Reflection;
 using System.Web;
 
-namespace SerializableHttps.Serializers
+namespace SerializableHttps.Serialisers
 {
 	public static class HeaderSerialiser
 	{
@@ -11,6 +12,9 @@ namespace SerializableHttps.Serializers
 		{
 			var query = HttpUtility.ParseQueryString("");
 			Type modelTypeInfo = model.GetType();
+
+			if (typeof(T).IsAssignableTo(typeof(FileModel)))
+				throw new HttpSerialisationException("Cannot querrify a model that is based on the FileModel class!");
 
 			if (!IsPrimitive(model))
 			{
@@ -36,7 +40,7 @@ namespace SerializableHttps.Serializers
 		{
 			Type modelTypeInfo = value.GetType();
 
-			return modelTypeInfo.IsPrimitive || modelTypeInfo.IsValueType || (modelTypeInfo == typeof(string));
+			return modelTypeInfo.IsPrimitive || modelTypeInfo.IsValueType || modelTypeInfo == typeof(string);
 		}
 	}
 }

@@ -24,4 +24,9 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AuthenticationMethods\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

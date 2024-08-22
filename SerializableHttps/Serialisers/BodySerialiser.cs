@@ -3,7 +3,7 @@ using SerializableHttps.Models;
 using System.Text.Json;
 using System.Xml.Linq;
 
-namespace SerializableHttps.Serializers
+namespace SerializableHttps.Serialisers
 {
 	public static class BodySerialiser
 	{
@@ -25,12 +25,10 @@ namespace SerializableHttps.Serializers
 				}
 				throw new HttpDeserialisationException("Attempted to deserialise to a FileModel, however content disposition was not set!");
 			}
-			if (targetType == typeof(string))
-				return (dynamic)await content.ReadAsStringAsync();
 			if (targetType == typeof(XElement))
 				return (dynamic)XElement.Parse(await content.ReadAsStringAsync());
 
-			var deserialized = JsonSerializer.Deserialize<T>((await content.ReadAsStringAsync()), _options);
+			var deserialized = JsonSerializer.Deserialize<T>(await content.ReadAsStringAsync(), _options);
 			if (deserialized == null)
 				throw new HttpDeserialisationException($"Could not deserialise to target type: {typeof(T)}!");
 			return deserialized;
@@ -44,8 +42,6 @@ namespace SerializableHttps.Serializers
 				newContent.Add(new StreamContent(fileHeader.GetFileContent()), "file", fileHeader.FileName);
 				return newContent;
 			}
-			if (model is string modelString)
-				return new StringContent(modelString, System.Text.Encoding.UTF8, "text/plain");
 			if (model is XElement xml)
 				return new StringContent(ConvertXElementToString(xml), System.Text.Encoding.UTF8, "text/xml");
 

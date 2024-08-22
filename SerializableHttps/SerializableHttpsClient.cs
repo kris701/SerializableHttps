@@ -1,11 +1,17 @@
 ﻿using SerializableHttps.AuthenticationMethods;
-using SerializableHttps.Serializers;
+using SerializableHttps.Serialisers;
 
 namespace SerializableHttps
 {
 	public class SerializableHttpsClient
 	{
 		private readonly HttpClient _client;
+
+		public TimeSpan TimeSpan
+		{
+			get => _client.Timeout;
+			set => _client.Timeout = value;
+		}
 
 		public SerializableHttpsClient()
 		{
