@@ -12,6 +12,9 @@ namespace SerializableHttps.Serialisers
 		public static async Task<T> DeserializeContentAsync<T>(HttpContent content) where T : notnull
 		{
 			var targetType = typeof(T);
+			if (targetType.IsAssignableTo(typeof(FileDataModel)) && targetType != typeof(FileDataModel))
+				throw new HttpDeserialisationException($"Cannot deserialise a FileDataModel into an inhertied type!");
+
 			if (targetType == typeof(FileDataModel))
 				return (dynamic)new FileDataModel((MemoryStream)(await content.ReadAsStreamAsync()));
 			if (targetType == typeof(XElement))

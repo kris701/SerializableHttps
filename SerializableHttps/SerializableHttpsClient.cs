@@ -1,21 +1,27 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Serialisers;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("SerializableHttps.Tests")]
 namespace SerializableHttps
 {
 	public class SerializableHttpsClient
 	{
-		internal readonly HttpClient _client;
+		internal HttpClient _client;
 
-		public TimeSpan TimeSpan
+		public TimeSpan TimeOut
 		{
 			get => _client.Timeout;
 			set => _client.Timeout = value;
 		}
 
-		public SerializableHttpsClient()
+		public SerializableHttpsClient(HttpClient client)
 		{
-			_client = new HttpClient();
+			_client = client;
+		}
+
+		public SerializableHttpsClient() : this(new HttpClient())
+		{
 		}
 
 		public void SetAuthentication(IAuthenticationMethod method) => _client.DefaultRequestHeaders.Authorization = method.GetHeaderValue();
