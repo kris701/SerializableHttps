@@ -12,19 +12,8 @@ namespace SerializableHttps.Serialisers
 		public static async Task<T> DeserializeContentAsync<T>(HttpContent content) where T : notnull
 		{
 			var targetType = typeof(T);
-			if (targetType == typeof(FileModel))
-			{
-				if (content.Headers.ContentDisposition != null && content.Headers.ContentDisposition.FileName != null)
-				{
-					var contentStream = await content.ReadAsStreamAsync();
-					var str = new MemoryStream();
-					contentStream.CopyTo(str);
-					str.Position = 0;
-					var info = new FileModel(content.Headers.ContentDisposition.FileName, str);
-					return (dynamic)info;
-				}
-				throw new HttpDeserialisationException("Attempted to deserialise to a FileModel, however content disposition was not set!");
-			}
+			if (targetType == typeof(FileDataModel))
+				return (dynamic)new FileDataModel((MemoryStream)(await content.ReadAsStreamAsync()));
 			if (targetType == typeof(XElement))
 				return (dynamic)XElement.Parse(await content.ReadAsStringAsync());
 
@@ -36,12 +25,8 @@ namespace SerializableHttps.Serialisers
 
 		public static HttpContent SerializeContent<T>(T model) where T : notnull
 		{
-			if (model is FileModel fileHeader)
-			{
-				MultipartFormDataContent newContent = new MultipartFormDataContent();
-				newContent.Add(new StreamContent(fileHeader.GetFileContent()), "file", fileHeader.FileName);
-				return newContent;
-			}
+			if (model is FileDataModel fileHeader)
+				return new StreamContent(fileHeader.GetFileContent());
 			if (model is XElement xml)
 				return new StringContent(ConvertXElementToString(xml), System.Text.Encoding.UTF8, "text/xml");
 

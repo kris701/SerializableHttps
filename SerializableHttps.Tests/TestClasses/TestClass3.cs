@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SerializableHttps.Tests.TestClasses
 {
-	public class TestClass3 : FileModel
+	public class TestClass3 : FileDataModel
 	{
-		public TestClass3(string fileName, MemoryStream stream) : base(fileName, stream)
+		public TestClass3(MemoryStream stream) : base(stream)
 		{
 		}
 

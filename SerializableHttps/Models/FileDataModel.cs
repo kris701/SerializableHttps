@@ -3,19 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace SerializableHttps.Models
 {
-	public class FileModel
+	public class FileDataModel
 	{
 		private readonly MemoryStream _str;
-
-		[Required]
-		public string FileName { get; set; }
 
 		[JsonIgnore]
 		public long Length => _str.Length;
 
-		public FileModel(string fileName, MemoryStream stream)
+		public FileDataModel(MemoryStream stream)
 		{
-			FileName = fileName;
 			_str = stream;
 			_str.Position = 0;
 		}

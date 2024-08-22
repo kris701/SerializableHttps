@@ -80,7 +80,7 @@ namespace SerializableHttps.Tests.Serialisers
 		public void Cant_QueryfiModel_IfItIsFileModel()
 		{
 			// ARRANGE
-			var item = new TestClass3("test.txt", new MemoryStream()) { ID = Guid.NewGuid() };
+			var item = new TestClass3(new MemoryStream()) { ID = Guid.NewGuid() };
 
 			// ACT
 			HeaderSerialiser.QuerryfiModel(item);

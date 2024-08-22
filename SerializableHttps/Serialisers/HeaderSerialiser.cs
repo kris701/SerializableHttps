@@ -13,7 +13,7 @@ namespace SerializableHttps.Serialisers
 			var query = HttpUtility.ParseQueryString("");
 			Type modelTypeInfo = model.GetType();
 
-			if (typeof(T).IsAssignableTo(typeof(FileModel)))
+			if (typeof(T).IsAssignableTo(typeof(FileDataModel)))
 				throw new HttpSerialisationException("Cannot querrify a model that is based on the FileModel class!");
 
 			if (!IsPrimitive(model))

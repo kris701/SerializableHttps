@@ -1,16 +1,33 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Serialisers;
+using System.Net.Http.Headers;
 
 namespace SerializableHttps
 {
 	public class SerializableHttpsClient
 	{
-		private readonly HttpClient _client;
+		internal readonly HttpClient _client;
 
 		public TimeSpan TimeSpan
 		{
 			get => _client.Timeout;
 			set => _client.Timeout = value;
+		}
+
+		private bool _compress = false;
+		public bool Compress {
+			get => _compress;
+			set { 
+				_compress = value;
+				if (_compress)
+					_client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+				else
+				{
+					var existing = _client.DefaultRequestHeaders.AcceptEncoding.SingleOrDefault(x => x.Value == "gzip");
+					if (existing != null)
+						_client.DefaultRequestHeaders.AcceptEncoding.Remove(existing);
+				}
+			} 
 		}
 
 		public SerializableHttpsClient()
