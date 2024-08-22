@@ -3,16 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializableHttps", "SerializableHttps\SerializableHttps.csproj", "{29512C0B-2235-4274-B4A6-6EC5152C5D68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerializableHttps", "SerializableHttps\SerializableHttps.csproj", "{29512C0B-2235-4274-B4A6-6EC5152C5D68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FF25B96-918B-41A9-A9FF-B76B16F4989D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		LICENSE.txt = LICENSE.txt
+		logo.png = logo.png
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializableHttps.Tests", "SerializableHttps.Tests\SerializableHttps.Tests.csproj", "{DBED4E81-8336-474A-AC65-EE0892F37E06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerializableHttps.Tests", "SerializableHttps.Tests\SerializableHttps.Tests.csproj", "{DBED4E81-8336-474A-AC65-EE0892F37E06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

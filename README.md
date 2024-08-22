@@ -1,3 +1,17 @@
+
+<p align="center">
+    <img src="https://github.com/kris701/SerializableHttps/assets/22596587/d3f387a6-e0b5-4118-9801-c125a4e64100" width="200" height="200" />
+</p>
+
+[![Build and Publish](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml)
+![Nuget](https://img.shields.io/nuget/v/SerializableHttps)
+![Nuget](https://img.shields.io/nuget/dt/SerializableHttps)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kris701/SerializableHttps/main)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/kris701/SerializableHttps)
+![Static Badge](https://img.shields.io/badge/Platform-Windows-blue)
+![Static Badge](https://img.shields.io/badge/Platform-Linux-blue)
+![Static Badge](https://img.shields.io/badge/Framework-dotnet--8.0-green)
+
 # SerializableHttps
 
 This is a project to make it easier to work with the `HttpClient` in C#.
@@ -26,3 +40,5 @@ The serialisation used depends on the call, i.e. if its a POST, PATCH, GET or DE
 * POST and PATCH: Serialises the input model as JSON.
 
 For this system to work, all the input and output models must be serialisable (i.e. no `dynamic` or `object`!)
+
+You can find the project as a package on the [NuGet Package Maznager](www.link.com).
