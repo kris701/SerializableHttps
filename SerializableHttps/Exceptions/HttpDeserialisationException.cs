@@ -2,8 +2,10 @@
 {
 	public class HttpDeserialisationException : Exception
 	{
-		public HttpDeserialisationException(string? message) : base(message)
+		public string Body { get; set; }
+		public HttpDeserialisationException(string? message, string body) : base(message)
 		{
+			Body = body;
 		}
 	}
 }

@@ -11,19 +11,26 @@ namespace SerializableHttps.Serialisers
 
 		public static async Task<T> DeserializeContentAsync<T>(HttpContent content) where T : notnull
 		{
-			var targetType = typeof(T);
-			if (targetType.IsAssignableTo(typeof(FileDataModel)) && targetType != typeof(FileDataModel))
-				throw new HttpDeserialisationException($"Cannot deserialise a FileDataModel into an inhertied type!");
+			try
+			{
+				var targetType = typeof(T);
+				if (targetType.IsAssignableTo(typeof(FileDataModel)) && targetType != typeof(FileDataModel))
+					throw new HttpDeserialisationException($"Cannot deserialise a FileDataModel into an inhertied type!", await content.ReadAsStringAsync());
 
-			if (targetType == typeof(FileDataModel))
-				return (dynamic)new FileDataModel((MemoryStream)(await content.ReadAsStreamAsync()));
-			if (targetType == typeof(XElement))
-				return (dynamic)XElement.Parse(await content.ReadAsStringAsync());
+				if (targetType == typeof(FileDataModel))
+					return (dynamic)new FileDataModel((MemoryStream)(await content.ReadAsStreamAsync()));
+				if (targetType == typeof(XElement))
+					return (dynamic)XElement.Parse(await content.ReadAsStringAsync());
 
-			var deserialized = JsonSerializer.Deserialize<T>(await content.ReadAsStringAsync(), _options);
-			if (deserialized == null)
-				throw new HttpDeserialisationException($"Could not deserialise to target type: {typeof(T)}!");
-			return deserialized;
+				var deserialized = JsonSerializer.Deserialize<T>(await content.ReadAsStringAsync(), _options);
+				if (deserialized == null)
+					throw new HttpDeserialisationException($"Could not deserialise to target type: {typeof(T)}!", await content.ReadAsStringAsync());
+				return deserialized;
+			}
+			catch(Exception e)
+			{
+				throw new HttpDeserialisationException($"An error occured during deserialisation: {e.Message}", await content.ReadAsStringAsync());
+			}
 		}
 
 		public static HttpContent SerializeContent<T>(T model) where T : notnull
