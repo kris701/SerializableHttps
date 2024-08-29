@@ -1,4 +1,5 @@
 ﻿using SerializableHttps.AuthenticationMethods;
+using SerializableHttps.Exceptions;
 using SerializableHttps.Serialisers;
 using System.Runtime.CompilerServices;
 
@@ -41,6 +42,8 @@ namespace SerializableHttps
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PostAsync(address, content);
+			if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
 
@@ -59,6 +62,8 @@ namespace SerializableHttps
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PatchAsync(address, content);
+			if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
 
@@ -77,6 +82,8 @@ namespace SerializableHttps
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.GetAsync(address);
+			if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
 
@@ -95,6 +102,8 @@ namespace SerializableHttps
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.DeleteAsync(address);
+			if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
 	}
