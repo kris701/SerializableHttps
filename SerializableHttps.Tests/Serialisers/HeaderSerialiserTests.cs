@@ -33,7 +33,7 @@ namespace SerializableHttps.Tests.Serialisers
 					DoubleValue = -1,
 					Time = DateTime.MinValue
 				},
-				"?DoubleValue=-1&Time=0001-01-01+00%3a00%3a00Z&Text=some+value&Value=1421"
+				"?double_value=-1&Time=0001-01-01+00%3a00%3a00Z&Text=some+value&Value=1421"
 			};
 		}
 

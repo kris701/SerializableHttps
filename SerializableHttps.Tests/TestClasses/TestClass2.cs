@@ -1,7 +1,10 @@
-﻿namespace SerializableHttps.Tests.TestClasses
+﻿using System.Text.Json.Serialization;
+
+namespace SerializableHttps.Tests.TestClasses
 {
 	public class TestClass2 : TestClass1
 	{
+		[JsonPropertyName("double_value")]
 		public double DoubleValue { get; set; }
 		public DateTime Time { get; set; }
 

@@ -34,7 +34,7 @@ namespace SerializableHttps.Tests.Serialisers
 					DoubleValue = -1,
 					Time = DateTime.MinValue
 				},
-				"{\"DoubleValue\":-1,\"Time\":\"0001-01-01T00:00:00\",\"Text\":\"some value\",\"Value\":1421}"
+				"{\"double_value\":-1,\"Time\":\"0001-01-01T00:00:00\",\"Text\":\"some value\",\"Value\":1421}"
 			};
 			yield return new object[] {
 				new XElement("name", "some value"),

@@ -2,6 +2,7 @@
 using SerializableHttps.Models;
 using System.Globalization;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Web;
 
 namespace SerializableHttps.Serialisers
@@ -20,13 +21,18 @@ namespace SerializableHttps.Serialisers
 			{
 				foreach (PropertyInfo propertyInfo in modelTypeInfo.GetProperties())
 				{
+					var targetName = propertyInfo.Name;
+					var nameAttribute = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
+					if (nameAttribute is JsonPropertyNameAttribute attr)
+						targetName = attr.Name;
+
 					var value = propertyInfo.GetValue(model, null);
 					if (value != null)
 					{
 						if (value.GetType() == typeof(DateTime))
-							query[propertyInfo.Name] = ((DateTime)value).ToString("u", CultureInfo.InvariantCulture);
+							query[targetName] = ((DateTime)value).ToString("u", CultureInfo.InvariantCulture);
 						else
-							query[propertyInfo.Name] = value.ToString();
+							query[targetName] = value.ToString();
 					}
 				}
 			}
