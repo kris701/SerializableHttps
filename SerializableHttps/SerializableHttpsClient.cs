@@ -26,6 +26,8 @@ namespace SerializableHttps
 		}
 
 		public void SetAuthentication(IAuthenticationMethod method) => _client.DefaultRequestHeaders.Authorization = method.GetHeaderValue();
+		public void SetHeader(string key, string value) => _client.DefaultRequestHeaders.Add(key, value);
+		public void RemoveHeader(string key) => _client.DefaultRequestHeaders.Remove(key);
 
 		public TOut Post<TIn, TOut>(TIn input, string address)
 			where TIn : notnull
