@@ -34,6 +34,7 @@ namespace SerializableHttps
 			where TOut : notnull
 		{
 			var task = PostAsync<TIn, TOut>(input, address);
+			task.Start();
 			task.Wait();
 			return task.Result;
 		}
@@ -54,6 +55,7 @@ namespace SerializableHttps
 			where TOut : notnull
 		{
 			var task = PatchAsync<TIn, TOut>(input, address);
+			task.Start();
 			task.Wait();
 			return task.Result;
 		}
@@ -74,6 +76,7 @@ namespace SerializableHttps
 			where TOut : notnull
 		{
 			var task = GetAsync<TIn, TOut>(input, address);
+			task.Start();
 			task.Wait();
 			return task.Result;
 		}
@@ -94,6 +97,7 @@ namespace SerializableHttps
 			where TOut : notnull
 		{
 			var task = DeleteAsync<TIn, TOut>(input, address);
+			task.Start();
 			task.Wait();
 			return task.Result;
 		}
