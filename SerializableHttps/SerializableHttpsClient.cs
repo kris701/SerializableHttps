@@ -1,6 +1,7 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Exceptions;
 using SerializableHttps.Serialisers;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("SerializableHttps.Tests")]
@@ -8,6 +9,7 @@ namespace SerializableHttps
 {
 	public class SerializableHttpsClient
 	{
+		public HttpRequestHeaders Headers => _client.DefaultRequestHeaders;
 		internal HttpClient _client;
 
 		public TimeSpan TimeOut
@@ -26,8 +28,6 @@ namespace SerializableHttps
 		}
 
 		public void SetAuthentication(IAuthenticationMethod method) => _client.DefaultRequestHeaders.Authorization = method.GetHeaderValue();
-		public void SetHeader(string key, string value) => _client.DefaultRequestHeaders.Add(key, value);
-		public void RemoveHeader(string key) => _client.DefaultRequestHeaders.Remove(key);
 
 		public TOut Post<TIn, TOut>(TIn input, string address)
 			where TIn : notnull
