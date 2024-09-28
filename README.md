@@ -16,7 +16,7 @@
 
 This is a project to make it easier to work with the `HttpClient` in C#.
 
-The idea is that instead of manually serialising and deserialising content, you can just let this library do it for you!
+The idea is that instead of manually serialising and deserialising json content, you can just let this library do it for you!
 
 In its most simple form, a HTTP call can be made as follows:
 ```csharp

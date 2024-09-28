@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace SerializableHttps.Serialisers
 {
-	public static class BodySerialiser
+	internal static class BodySerialiser
 	{
 		private static readonly JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 

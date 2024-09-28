@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SerializableHttps.Serialisers
 {
-	public static class HeaderSerialiser
+    internal static class HeaderSerialiser
 	{
 		public static string QuerryfiModel<T>(T model) where T : notnull
 		{
