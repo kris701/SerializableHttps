@@ -48,9 +48,6 @@ namespace SerializableHttps.Tests.Serialisers
 			yield return new object[] {
 				DateTime.Now
 			};
-			yield return new object[] {
-				"test"
-			};
 		}
 
 		[TestMethod]

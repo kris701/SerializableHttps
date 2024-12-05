@@ -16,7 +16,8 @@ namespace SerializableHttps.Serialisers
 				var targetType = typeof(T);
 				if (targetType.IsAssignableTo(typeof(FileDataModel)) && targetType != typeof(FileDataModel))
 					throw new HttpDeserialisationException($"Cannot deserialise a FileDataModel into an inhertied type!", await content.ReadAsStringAsync());
-
+				if (targetType == typeof(string))
+					return (dynamic)await content.ReadAsStringAsync();
 				if (targetType == typeof(FileDataModel))
 					return (dynamic)new FileDataModel((MemoryStream)(await content.ReadAsStreamAsync()));
 				if (targetType == typeof(XElement))
@@ -35,6 +36,8 @@ namespace SerializableHttps.Serialisers
 
 		public static HttpContent SerializeContent<T>(T model) where T : notnull
 		{
+			if (model is string str)
+				return new StringContent(str);
 			if (model is FileDataModel fileHeader)
 				return new StreamContent(fileHeader.GetFileContent());
 			if (model is XElement xml)

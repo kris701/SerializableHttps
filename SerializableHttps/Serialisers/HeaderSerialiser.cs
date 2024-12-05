@@ -16,6 +16,8 @@ namespace SerializableHttps.Serialisers
 
 			if (typeof(T).IsAssignableTo(typeof(FileDataModel)))
 				throw new HttpSerialisationException("Cannot querrify a model that is based on the FileModel class!");
+			if (model is string str)
+				return str;
 
 			if (!IsPrimitive(model))
 			{
