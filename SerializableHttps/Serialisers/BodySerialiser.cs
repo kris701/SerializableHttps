@@ -14,6 +14,8 @@ namespace SerializableHttps.Serialisers
 			try
 			{
 				var targetType = typeof(T);
+				if (targetType == typeof(EmptyModel))
+					return (dynamic)new EmptyModel();
 				if (targetType.IsAssignableTo(typeof(FileDataModel)) && targetType != typeof(FileDataModel))
 					throw new HttpDeserialisationException($"Cannot deserialise a FileDataModel into an inhertied type!", await content.ReadAsStringAsync());
 				if (targetType == typeof(string))

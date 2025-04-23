@@ -1,5 +1,6 @@
 ﻿using SerializableHttps.AuthenticationMethods;
 using SerializableHttps.Exceptions;
+using SerializableHttps.Models;
 using SerializableHttps.Serialisers;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -235,13 +236,19 @@ namespace SerializableHttps
 			return task.Result;
 		}
 
-        /// <summary>
-        /// Send a DELETE request to a given <paramref name="address"/> asynchronously
-        /// </summary>
-        /// <typeparam name="TOut">What to deserialize the response as</typeparam>
-        /// <param name="address">Target URL address</param>
-        /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> DeleteAsync<TOut>(string address) where TOut : notnull => await DeleteAsync<EmptyModel, TOut>(new EmptyModel(), address);
+		/// <summary>
+		/// Send a DELETE request to a given <paramref name="address"/> asynchronously
+		/// </summary>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public async Task DeleteAsync(string address) => await DeleteAsync<EmptyModel, EmptyModel>(new EmptyModel(), address);
+		/// <summary>
+		/// Send a DELETE request to a given <paramref name="address"/> asynchronously
+		/// </summary>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public async Task<TOut> DeleteAsync<TOut>(string address) where TOut : notnull => await DeleteAsync<EmptyModel, TOut>(new EmptyModel(), address);
         /// <summary>
         /// Send a DELETE request to a given <paramref name="address"/> asynchronously
         /// </summary>
@@ -261,10 +268,5 @@ namespace SerializableHttps
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
         #endregion
-
-        private class EmptyModel
-		{
-
-		}
 	}
 }

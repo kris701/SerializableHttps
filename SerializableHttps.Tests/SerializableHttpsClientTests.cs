@@ -173,6 +173,22 @@ namespace SerializableHttps.Tests
 			};
 		}
 
+		public static IEnumerable<object[]> ExecuteStringItems()
+		{
+			yield return new object[] {
+				"abc",
+				new XElement("name", "value").ToString(),
+				new Func<SerializableHttpsClient, string, dynamic, Task<string>>(
+					async (c, a, i) => await c.PostAsync<string,string>(i, a))
+			};
+			yield return new object[] {
+				"abc",
+				"123",
+				new Func<SerializableHttpsClient, string, dynamic, Task<string>>(
+					async (c, a, i) => await c.PatchAsync<string,string>(i, a))
+			};
+		}
+
 		public static MemoryStream GenerateStreamFromString(string s)
 		{
 			var stream = new MemoryStream();
@@ -252,6 +268,24 @@ namespace SerializableHttps.Tests
 
 			var mockHttp = new MockHttpMessageHandler();
 			mockHttp.When(address).Respond((StreamContent)BodySerialiser.SerializeContent(expected));
+			var client = new SerializableHttpsClient(new HttpClient(mockHttp));
+
+			// ACT
+			dynamic response = await execute(client, address, input);
+
+			// ASSERT
+			Assert.AreEqual(expected.ToString(), response.ToString());
+		}
+
+		[TestMethod]
+		[DynamicData(nameof(ExecuteStringItems), DynamicDataSourceType.Method)]
+		public async Task Can_Execute_StringResult(dynamic input, dynamic expected, Func<SerializableHttpsClient, string, dynamic, Task<string>> execute)
+		{
+			// ARRANGE
+			var address = "http://localhost/api/test";
+
+			var mockHttp = new MockHttpMessageHandler();
+			mockHttp.When(address).Respond((StringContent)BodySerialiser.SerializeContent(expected));
 			var client = new SerializableHttpsClient(new HttpClient(mockHttp));
 
 			// ACT
