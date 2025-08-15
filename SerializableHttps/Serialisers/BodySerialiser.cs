@@ -1,5 +1,6 @@
 ﻿using SerializableHttps.Exceptions;
 using SerializableHttps.Models;
+using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 
@@ -39,14 +40,14 @@ namespace SerializableHttps.Serialisers
 		public static HttpContent SerializeContent<T>(T model) where T : notnull
 		{
 			if (model is string str)
-				return new StringContent(str);
+				return new StringContent(str, Encoding.UTF8, "text/json");
 			if (model is FileDataModel fileHeader)
 				return new StreamContent(fileHeader.GetFileContent());
 			if (model is XElement xml)
-				return new StringContent(ConvertXElementToString(xml), System.Text.Encoding.UTF8, "text/xml");
+				return new StringContent(ConvertXElementToString(xml), Encoding.UTF8, "text/xml");
 
 			string content = JsonSerializer.Serialize(model);
-			return new StringContent(content, System.Text.Encoding.UTF8, "application/json");
+			return new StringContent(content, Encoding.UTF8, "application/json");
 		}
 
 		private static string ConvertXElementToString(XElement element)
