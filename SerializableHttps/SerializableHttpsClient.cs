@@ -99,7 +99,7 @@ namespace SerializableHttps
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PostAsync(address, content);
 			if (!IsStatusCodeOK(response))
-				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
         #endregion
@@ -152,7 +152,7 @@ namespace SerializableHttps
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PatchAsync(address, content);
 			if (!IsStatusCodeOK(response))
-				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
         #endregion
@@ -205,7 +205,7 @@ namespace SerializableHttps
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.GetAsync(address);
 			if (!IsStatusCodeOK(response))
-				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
         #endregion
@@ -264,7 +264,7 @@ namespace SerializableHttps
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.DeleteAsync(address);
 			if (!IsStatusCodeOK(response))
-				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", await response.Content.ReadAsStringAsync());
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
         #endregion
