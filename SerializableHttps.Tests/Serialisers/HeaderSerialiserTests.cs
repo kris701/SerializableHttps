@@ -63,24 +63,22 @@ namespace SerializableHttps.Tests.Serialisers
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(HttpSerialisationException), "Please wrap in model before using parameters!")]
 		[DynamicData(nameof(NonhuerifiableData), DynamicDataSourceType.Method)]
 		public void Cant_QueryfiModel_IfNotModel(dynamic item)
 		{
 			// ARRANGE
 			// ACT
-			HeaderSerialiser.QuerryfiModel(item);
+			Assert.ThrowsExactly<HttpSerialisationException>(() => HeaderSerialiser.QuerryfiModel(item), "Please wrap in model before using parameters!");
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(HttpSerialisationException), "Cannot querrify a model that is based on the FileModel class!")]
 		public void Cant_QueryfiModel_IfItIsFileModel()
 		{
 			// ARRANGE
 			var item = new TestClass3(new MemoryStream()) { ID = Guid.NewGuid() };
 
 			// ACT
-			HeaderSerialiser.QuerryfiModel(item);
+			Assert.ThrowsExactly<HttpSerialisationException>(() => HeaderSerialiser.QuerryfiModel(item), "Cannot querrify a model that is based on the FileModel class!");
 		}
 	}
 }

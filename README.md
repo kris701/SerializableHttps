@@ -10,7 +10,7 @@
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/kris701/SerializableHttps)
 ![Static Badge](https://img.shields.io/badge/Platform-Windows-blue)
 ![Static Badge](https://img.shields.io/badge/Platform-Linux-blue)
-![Static Badge](https://img.shields.io/badge/Framework-dotnet--9.0-green)
+![Static Badge](https://img.shields.io/badge/Framework-dotnet--10.0-green)
 
 # SerializableHttps
 
