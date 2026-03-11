@@ -155,16 +155,69 @@ namespace SerializableHttps
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
 		}
-        #endregion
+		#endregion
 
-        #region GET
-        /// <summary>
-        /// Send a GET request to a given <paramref name="address"/>
-        /// </summary>
-        /// <typeparam name="TOut">What to deserialize the response as</typeparam>
-        /// <param name="address">Target URL address</param>
-        /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Get<TOut>(string address) where TOut : notnull => Get<EmptyModel, TOut>(new EmptyModel(), address);
+		#region PUT
+		/// <summary>
+		/// Send a PUT request to a given <paramref name="address"/>
+		/// </summary>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public TOut Put<TOut>(string address) where TOut : notnull => Put<EmptyModel, TOut>(new EmptyModel(), address);
+		/// <summary>
+		/// Send a PUT request to a given <paramref name="address"/>
+		/// </summary>
+		/// <typeparam name="TIn">What to serialize the request as</typeparam>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="input">Input model to serialize</param>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public TOut Put<TIn, TOut>(TIn input, string address)
+			where TIn : notnull
+			where TOut : notnull
+		{
+			var task = PutAsync<TIn, TOut>(input, address);
+			task.Start();
+			task.Wait();
+			return task.Result;
+		}
+
+		/// <summary>
+		/// Send a PUT request to a given <paramref name="address"/> asynchronously
+		/// </summary>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public async Task<TOut> PutAsync<TOut>(string address) where TOut : notnull => await PutAsync<EmptyModel, TOut>(new EmptyModel(), address);
+		/// <summary>
+		/// Send a PUT request to a given <paramref name="address"/> asynchronously
+		/// </summary>
+		/// <typeparam name="TIn">What to serialize the request as</typeparam>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="input">Input model to serialize</param>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public async Task<TOut> PutAsync<TIn, TOut>(TIn input, string address)
+			where TIn : notnull
+			where TOut : notnull
+		{
+			var content = BodySerialiser.SerializeContent(input);
+			var response = await _client.PutAsync(address, content);
+			if (!IsStatusCodeOK(response))
+				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
+			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
+		}
+		#endregion
+
+		#region GET
+		/// <summary>
+		/// Send a GET request to a given <paramref name="address"/>
+		/// </summary>
+		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
+		/// <param name="address">Target URL address</param>
+		/// <returns>An instance of <typeparamref name="TOut"/></returns>
+		public TOut Get<TOut>(string address) where TOut : notnull => Get<EmptyModel, TOut>(new EmptyModel(), address);
         /// <summary>
         /// Send a GET request to a given <paramref name="address"/>
         /// </summary>
