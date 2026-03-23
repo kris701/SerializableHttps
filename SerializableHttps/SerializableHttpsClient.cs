@@ -58,7 +58,7 @@ namespace SerializableHttps
         /// <typeparam name="TOut">What to deserialize the response as</typeparam>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Post<TOut>(string address) where TOut : notnull => Post<EmptyModel, TOut>(new EmptyModel(), address);
+        public TOut? Post<TOut>(string address) => Post<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a POST request to a given <paramref name="address"/>
         /// </summary>
@@ -67,9 +67,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Post<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public TOut? Post<TIn, TOut>(TIn? input, string address)
 		{
 			var task = PostAsync<TIn, TOut>(input, address);
 			task.Start();
@@ -83,7 +81,7 @@ namespace SerializableHttps
         /// <typeparam name="TOut">What to deserialize the response as</typeparam>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> PostAsync<TOut>(string address) where TOut : notnull => await PostAsync<EmptyModel, TOut>(new EmptyModel(), address);
+        public async Task<TOut?> PostAsync<TOut>(string address) => await PostAsync<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a POST request to a given <paramref name="address"/> asynchronously
         /// </summary>
@@ -92,9 +90,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> PostAsync<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public async Task<TOut?> PostAsync<TIn, TOut>(TIn? input, string address)
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PostAsync(address, content);
@@ -111,7 +107,7 @@ namespace SerializableHttps
 		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Patch<TOut>(string address) where TOut : notnull => Patch<EmptyModel, TOut>(new EmptyModel(), address);
+        public TOut? Patch<TOut>(string address) => Patch<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a PATCH request to a given <paramref name="address"/>
         /// </summary>
@@ -120,9 +116,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Patch<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public TOut? Patch<TIn, TOut>(TIn? input, string address)
 		{
 			var task = PatchAsync<TIn, TOut>(input, address);
 			task.Start();
@@ -136,7 +130,7 @@ namespace SerializableHttps
         /// <typeparam name="TOut">What to deserialize the response as</typeparam>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> PatchAsync<TOut>(string address) where TOut : notnull => await PatchAsync<EmptyModel, TOut>(new EmptyModel(), address);
+        public async Task<TOut?> PatchAsync<TOut>(string address) => await PatchAsync<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a PATCH request to a given <paramref name="address"/> asynchronously
         /// </summary>
@@ -145,9 +139,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> PatchAsync<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public async Task<TOut?> PatchAsync<TIn, TOut>(TIn? input, string address)
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PatchAsync(address, content);
@@ -164,7 +156,7 @@ namespace SerializableHttps
 		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public TOut Put<TOut>(string address) where TOut : notnull => Put<EmptyModel, TOut>(new EmptyModel(), address);
+		public TOut? Put<TOut>(string address) => Put<EmptyModel, TOut>(null, address);
 		/// <summary>
 		/// Send a PUT request to a given <paramref name="address"/>
 		/// </summary>
@@ -173,9 +165,7 @@ namespace SerializableHttps
 		/// <param name="input">Input model to serialize</param>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public TOut Put<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+		public TOut? Put<TIn, TOut>(TIn? input, string address)
 		{
 			var task = PutAsync<TIn, TOut>(input, address);
 			task.Start();
@@ -189,7 +179,7 @@ namespace SerializableHttps
 		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public async Task<TOut> PutAsync<TOut>(string address) where TOut : notnull => await PutAsync<EmptyModel, TOut>(new EmptyModel(), address);
+		public async Task<TOut?> PutAsync<TOut>(string address) => await PutAsync<EmptyModel, TOut>(null, address);
 		/// <summary>
 		/// Send a PUT request to a given <paramref name="address"/> asynchronously
 		/// </summary>
@@ -198,9 +188,7 @@ namespace SerializableHttps
 		/// <param name="input">Input model to serialize</param>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public async Task<TOut> PutAsync<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+		public async Task<TOut?> PutAsync<TIn, TOut>(TIn? input, string address)
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PutAsync(address, content);
@@ -217,7 +205,7 @@ namespace SerializableHttps
 		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public TOut Get<TOut>(string address) where TOut : notnull => Get<EmptyModel, TOut>(new EmptyModel(), address);
+		public TOut? Get<TOut>(string address) => Get<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a GET request to a given <paramref name="address"/>
         /// </summary>
@@ -226,9 +214,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Get<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public TOut? Get<TIn, TOut>(TIn? input, string address)
 		{
 			var task = GetAsync<TIn, TOut>(input, address);
 			task.Start();
@@ -242,7 +228,7 @@ namespace SerializableHttps
         /// <typeparam name="TOut">What to deserialize the response as</typeparam>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> GetAsync<TOut>(string address) where TOut : notnull => await GetAsync<EmptyModel, TOut>(new EmptyModel(), address);
+        public async Task<TOut?> GetAsync<TOut>(string address) => await GetAsync<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a GET request to a given <paramref name="address"/> asynchronously
         /// </summary>
@@ -251,9 +237,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> GetAsync<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public async Task<TOut?> GetAsync<TIn, TOut>(TIn? input, string address)
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.GetAsync(address);
@@ -270,7 +254,7 @@ namespace SerializableHttps
         /// <typeparam name="TOut">What to deserialize the response as</typeparam>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Delete<TOut>(string address) where TOut : notnull => Delete<EmptyModel, TOut>(new EmptyModel(), address);
+        public TOut? Delete<TOut>(string address) => Delete<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a DELETE request to a given <paramref name="address"/>
         /// </summary>
@@ -279,9 +263,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public TOut Delete<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public TOut? Delete<TIn, TOut>(TIn? input, string address)
 		{
 			var task = DeleteAsync<TIn, TOut>(input, address);
 			task.Start();
@@ -293,15 +275,14 @@ namespace SerializableHttps
 		/// Send a DELETE request to a given <paramref name="address"/> asynchronously
 		/// </summary>
 		/// <param name="address">Target URL address</param>
-		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public async Task DeleteAsync(string address) => await DeleteAsync<EmptyModel, EmptyModel>(new EmptyModel(), address);
+		public async Task DeleteAsync(string address) => await DeleteAsync<EmptyModel, EmptyModel>(null, address);
 		/// <summary>
 		/// Send a DELETE request to a given <paramref name="address"/> asynchronously
 		/// </summary>
 		/// <typeparam name="TOut">What to deserialize the response as</typeparam>
 		/// <param name="address">Target URL address</param>
 		/// <returns>An instance of <typeparamref name="TOut"/></returns>
-		public async Task<TOut> DeleteAsync<TOut>(string address) where TOut : notnull => await DeleteAsync<EmptyModel, TOut>(new EmptyModel(), address);
+		public async Task<TOut?> DeleteAsync<TOut>(string address) => await DeleteAsync<EmptyModel, TOut>(null, address);
         /// <summary>
         /// Send a DELETE request to a given <paramref name="address"/> asynchronously
         /// </summary>
@@ -310,9 +291,7 @@ namespace SerializableHttps
         /// <param name="input">Input model to serialize</param>
         /// <param name="address">Target URL address</param>
         /// <returns>An instance of <typeparamref name="TOut"/></returns>
-        public async Task<TOut> DeleteAsync<TIn, TOut>(TIn input, string address)
-			where TIn : notnull
-			where TOut : notnull
+        public async Task<TOut?> DeleteAsync<TIn, TOut>(TIn? input, string address)
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.DeleteAsync(address);

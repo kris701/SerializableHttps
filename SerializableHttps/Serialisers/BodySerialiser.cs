@@ -10,7 +10,7 @@ namespace SerializableHttps.Serialisers
 	{
 		private static readonly JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
-		public static async Task<T> DeserializeContentAsync<T>(HttpContent content) where T : notnull
+		public static async Task<T?> DeserializeContentAsync<T>(HttpContent content)
 		{
 			try
 			{
@@ -26,9 +26,12 @@ namespace SerializableHttps.Serialisers
 				if (targetType == typeof(XElement))
 					return (dynamic)XElement.Parse(await content.ReadAsStringAsync());
 
-				var deserialized = JsonSerializer.Deserialize<T>(await content.ReadAsStringAsync(), _options);
+				var text = await content.ReadAsStringAsync();
+				if (text.Trim() == "")
+					return default;
+				var deserialized = JsonSerializer.Deserialize<T>(text, _options);
 				if (deserialized == null)
-					throw new HttpDeserialisationException($"Could not deserialise to target type: {typeof(T)}!", await content.ReadAsStringAsync());
+					throw new HttpDeserialisationException($"Could not deserialise to target type: {typeof(T)}!", text);
 				return deserialized;
 			}
 			catch(Exception e)
@@ -37,8 +40,10 @@ namespace SerializableHttps.Serialisers
 			}
 		}
 
-		public static HttpContent SerializeContent<T>(T model) where T : notnull
+		public static HttpContent? SerializeContent<T>(T model)
 		{
+			if (model == null)
+				return null;
 			if (model is string str)
 				return new StringContent(str, Encoding.UTF8, "text/json");
 			if (model is FileDataModel fileHeader)

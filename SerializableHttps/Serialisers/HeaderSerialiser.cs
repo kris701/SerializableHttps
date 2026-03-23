@@ -9,8 +9,11 @@ namespace SerializableHttps.Serialisers
 {
     internal static class HeaderSerialiser
 	{
-		public static string QuerryfiModel<T>(T model) where T : notnull
+		public static string QuerryfiModel<T>(T model)
 		{
+			if (model == null)
+				return "";
+
 			var query = HttpUtility.ParseQueryString("");
 			Type modelTypeInfo = model.GetType();
 
@@ -44,9 +47,9 @@ namespace SerializableHttps.Serialisers
 			return $"?{query}";
 		}
 
-		private static bool IsPrimitive<T>(T value) where T : notnull
+		private static bool IsPrimitive<T>(T value)
 		{
-			Type modelTypeInfo = value.GetType();
+			Type modelTypeInfo = value!.GetType();
 
 			return modelTypeInfo.IsPrimitive || modelTypeInfo.IsValueType || modelTypeInfo == typeof(string);
 		}
