@@ -329,7 +329,8 @@ namespace SerializableHttps
 			var targets = response.Headers.Where(x => x.Key.ToLower() == "set-cookie");
 			var cookieHeader = "";
 			foreach (var target in targets)
-				cookieHeader += target.Value + ";";
+				foreach(var value in target.Value)
+					cookieHeader += value + ";";
 			if (cookieHeader.EndsWith(';'))
 				cookieHeader = cookieHeader.Substring(0, cookieHeader.Length - 1);
 			if (cookieHeader != "")
