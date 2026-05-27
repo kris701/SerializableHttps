@@ -27,6 +27,11 @@ namespace SerializableHttps
 			set => _client.Timeout = value;
 		}
 
+		/// <summary>
+		/// Automatically add 'set-cookie' responses to the header
+		/// </summary>
+		public bool AutoAddCookies { get; set; } = false;
+
         internal HttpClient _client;
 
 		/// <summary>
@@ -94,6 +99,8 @@ namespace SerializableHttps
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PostAsync(address, content);
+			if (AutoAddCookies)
+				UpdateRequestCookie(response);
 			if (!IsStatusCodeOK(response))
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
@@ -143,6 +150,8 @@ namespace SerializableHttps
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PatchAsync(address, content);
+			if (AutoAddCookies)
+				UpdateRequestCookie(response);
 			if (!IsStatusCodeOK(response))
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
@@ -192,6 +201,8 @@ namespace SerializableHttps
 		{
 			var content = BodySerialiser.SerializeContent(input);
 			var response = await _client.PutAsync(address, content);
+			if (AutoAddCookies)
+				UpdateRequestCookie(response);
 			if (!IsStatusCodeOK(response))
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
@@ -241,6 +252,8 @@ namespace SerializableHttps
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.GetAsync(address);
+			if (AutoAddCookies)
+				UpdateRequestCookie(response);
 			if (!IsStatusCodeOK(response))
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
@@ -295,6 +308,8 @@ namespace SerializableHttps
 		{
 			address += HeaderSerialiser.QuerryfiModel(input);
 			var response = await _client.DeleteAsync(address);
+			if (AutoAddCookies)
+				UpdateRequestCookie(response);
 			if (!IsStatusCodeOK(response))
 				throw new HttpGeneralException($"Server did not respond with an OK! Response code: {response.StatusCode}", response.StatusCode, await response.Content.ReadAsStringAsync());
 			return await BodySerialiser.DeserializeContentAsync<TOut>(response.Content);
@@ -307,6 +322,21 @@ namespace SerializableHttps
                 response.StatusCode == System.Net.HttpStatusCode.Created ||
 				response.StatusCode == System.Net.HttpStatusCode.Accepted ||
 				response.StatusCode == System.Net.HttpStatusCode.NoContent;
+		}
+
+		private void UpdateRequestCookie(HttpResponseMessage response)
+		{
+			var targets = response.Headers.Where(x => x.Key.ToLower() == "set-cookie");
+			var cookieHeader = "";
+			foreach (var target in targets)
+				cookieHeader += target.Value + ";";
+			if (cookieHeader.EndsWith(';'))
+				cookieHeader = cookieHeader.Substring(0, cookieHeader.Length - 1);
+			if (cookieHeader != "")
+			{
+				_client.DefaultRequestHeaders.Remove("Cookie");
+				_client.DefaultRequestHeaders.Add("Cookie", cookieHeader);
+			}
 		}
 	}
 }
