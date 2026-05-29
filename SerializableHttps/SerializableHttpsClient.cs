@@ -14,9 +14,28 @@ namespace SerializableHttps
 	public class SerializableHttpsClient
 	{
 		/// <summary>
-		/// Additional headers to send with the HTTP request
+		/// Get current default request headers
 		/// </summary>
-		public HttpRequestHeaders Headers => _client.DefaultRequestHeaders;
+		public HttpRequestHeaders GetHeaders() => _client.DefaultRequestHeaders;
+
+		/// <summary>
+		/// Adds a default request header
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		public void AddHeader(string key, string value)
+		{
+			_client.DefaultRequestHeaders.Add(key, value);
+		}
+
+		/// <summary>
+		/// Removes a default request header
+		/// </summary>
+		/// <param name="key"></param>
+		public void RemoveHeader(string key)
+		{
+			_client.DefaultRequestHeaders.Remove(key);
+		}
 
 		/// <summary>
 		/// Timeout for HTTP requests
