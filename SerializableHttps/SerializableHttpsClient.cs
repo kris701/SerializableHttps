@@ -67,6 +67,7 @@ namespace SerializableHttps
 		{
 			_clientHandler.CookieContainer = _cookies;
 			_clientHandler.UseCookies = true;
+			_clientHandler.AutomaticDecompression = DecompressionMethods.All;
 			_client = new HttpClient(_clientHandler);
 		}
 
