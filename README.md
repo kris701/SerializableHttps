@@ -3,7 +3,7 @@
     <img src="https://github.com/user-attachments/assets/8ae7bc6c-2243-47dc-aec1-4660514c39b2" width="200" height="200" />
 </p>
 
-[![Build and Publish](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet-desktop.yml)
+[![Build and Publish](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet.yml/badge.svg)](https://github.com/kris701/SerializableHttps/actions/workflows/dotnet.yml)
 ![Nuget](https://img.shields.io/nuget/v/SerializableHttps)
 ![Nuget](https://img.shields.io/nuget/dt/SerializableHttps)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kris701/SerializableHttps/main)

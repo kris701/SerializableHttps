@@ -1,0 +1,95 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Check if a release with the current version already exists
+  check-tag:
+    name: Check build tag
+    runs-on: ubuntu-latest
+    outputs: 
+        releaseExists: ${{ steps.check-tag.outputs.exists }}
+        version: 'v${{ steps.get-version.outputs.package-version }}'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Client Project version
+        id: get-version
+        uses: kzrnm/get-net-sdk-project-versions-action@v1
+        with:
+          proj-path: SerializableHttps/SerializableHttps.csproj
+
+      - uses: mukunku/tag-exists-action@v1.6.0
+        id: check-tag
+        with: 
+          tag: 'v${{ steps.get-version.outputs.package-version }}'
+
+  # Make a test build and run tests
+  build-test:
+    runs-on: ubuntu-latest
+    name: Build and Test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+
+  # If a release does not exist and the test build worked, create a new release
+  build-release:
+    needs: [check-tag, build-test]
+    if: needs.check-tag.outputs.releaseExists == 'false'
+    runs-on: ubuntu-latest
+    name: Create Release
+    permissions:
+      id-token: write
+      packages: write
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+          
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: |  
+          cd SerializableHttps
+          dotnet build --configuration Release
+          dotnet pack --configuration Release
+
+      - name: Publish (Github)
+        run: dotnet nuget push "SerializableHttps/bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/kris701/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: login_nuget
+        with:
+          user: kris701
+
+      - name: Publish (NuGet)
+        run: dotnet nuget push "SerializableHttps/bin/Release/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ steps.login_nuget.outputs.NUGET_API_KEY }} --skip-duplicate
+
+      - name: Generate tag
+        continue-on-error: true
+        uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: ${{ needs.check-tag.outputs.version }}
+          message: "Latest release"
+
+      - name: Generate Release
+        uses: ncipollo/release-action@v1
+        with:
+          skipIfReleaseExists: true
+          artifacts: "SerializableHttps/bin/Release/*.nupkg"
+          tag: ${{ needs.check-tag.outputs.version }}
